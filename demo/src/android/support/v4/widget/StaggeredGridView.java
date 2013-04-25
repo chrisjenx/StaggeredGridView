@@ -311,6 +311,14 @@ public class StaggeredGridView extends ViewGroup
     {
         return mFirstPosition;
     }
+    
+    /**
+     * @return the total number of items in the grid displayed or not
+     */
+    public int getItemCount()
+    {
+        return mItemCount;
+    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev)
