@@ -1,4 +1,4 @@
-package com.jenxsol.staggeredgridview;
+package com.mino.staggeredgridview;
 
 import java.util.Random;
 
@@ -7,6 +7,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.StaggeredGridView;
 import android.support.v4.widget.StaggeredGridView.LayoutParams;
+import android.support.v4.widget.StaggeredGridView.OnScrollListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -15,9 +17,40 @@ import android.widget.BaseAdapter;
 
 public class MainActivity extends Activity
 {
+	private final static String TAG = MainActivity.class.getSimpleName();
+    private StaggeredGridView mSGV;
+    private SGVAdapter mAdapter;
+    
+    private OnScrollListener	mScrollListener = new OnScrollListener() {
+    	
+		@Override
+		public void onScrollStateChanged(ViewGroup view, int scrollState) {
+			Log.d(TAG, "[onScrollStateChanged] scrollState:" + scrollState);
+			switch (scrollState) {
+			case SCROLL_STATE_IDLE:
+				setTitle("SCROLL_STATE_IDLE");
+				break;
+				
+			case SCROLL_STATE_FLING:
+				setTitle("SCROLL_STATE_FLING");
+				break;
+				
+			case SCROLL_STATE_TOUCH_SCROLL:
+				setTitle("SCROLL_STATE_TOUCH_SCROLL");
+				break;
 
-    StaggeredGridView mSGV;
-    SGVAdapter mAdapter;
+			default:
+				break;
+			}
+			
+		}
+
+		@Override
+		public void onScroll(ViewGroup view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+			Log.d(TAG, "[onScroll] firstVisibleItem:" + firstVisibleItem + " visibleItemCount:"+visibleItemCount + " totalItemCount:" + totalItemCount);
+			
+		}
+	};
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,6 +62,7 @@ public class MainActivity extends Activity
         mSGV = (StaggeredGridView) findViewById(R.id.grid);
         mSGV.setColumnCount(4);
         mSGV.setAdapter(mAdapter);
+        mSGV.setOnScrollListener(mScrollListener);
     }
 
     @Override
